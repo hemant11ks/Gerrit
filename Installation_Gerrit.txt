@@ -1,3 +1,237 @@
 Installation Steps on Linux :
 
-Pre-requisite : 
+What is Gerrit (quick context)
+
+Gerrit = Git Server + Code Review system used by big projects like Android, Chromium, OpenStack.
+
+It runs as a Java application + SSH + Web UI.
+
+Prerequisites
+
+You need these installed first:
+
+1️⃣ Install Java (Gerrit requires Java 11 or 17)
+
+Check Java:
+
+java -version
+
+
+If not installed:
+
+sudo apt update
+sudo apt install openjdk-17-jdk -y
+
+
+Verify:
+
+java -version
+
+2️⃣ Install Git
+sudo apt install git -y
+
+
+Check:
+
+git --version
+
+3️⃣ Install wget + unzip
+sudo apt install wget unzip -y
+
+Step-by-Step Gerrit Installation
+Step 1 — Create a Gerrit user (recommended)
+
+Running Gerrit as root is bad practice.
+
+sudo adduser gerrit
+
+
+Switch to gerrit user:
+
+sudo su - gerrit
+
+
+Now all next steps run as gerrit user.
+
+Step 2 — Download Gerrit WAR file
+
+Go to home directory:
+
+cd ~
+
+
+Download latest Gerrit:
+
+wget https://gerrit-releases.storage.googleapis.com/gerrit-3.9.4.war
+
+
+(You can replace version with latest from Gerrit website.)
+
+Check:
+
+ls
+
+
+You should see:
+
+gerrit-3.9.4.war
+
+Step 3 — Create Gerrit site directory
+
+This is where Gerrit stores data.
+
+mkdir ~/gerrit_site
+cd ~/gerrit_site
+
+Step 4 — Initialize Gerrit (Important Step)
+
+Run initialization wizard:
+
+java -jar ~/gerrit-3.9.4.war init -d ~/gerrit_site
+
+
+You will be asked many questions.
+
+Here are recommended answers 👇
+
+Authentication type
+Authentication method [OPENID/?]: HTTP
+
+
+Type:
+
+HTTP
+
+HTTP listening port
+Listen on port [8080]:
+
+
+Press Enter (default 8080).
+
+SSH daemon port
+Listen on port [29418]:
+
+
+Press Enter
+
+This is Gerrit’s Git push port.
+
+Database type
+Database server type [h2/?]:
+
+
+Press Enter
+(Default H2 DB is fine for learning)
+
+Create admin account
+
+Gerrit will ask for:
+
+Username: admin
+Email: your_email@gmail.com
+Password: ********
+
+
+Remember this login!
+
+When setup completes you’ll see:
+
+Initialized /home/gerrit/gerrit_site
+
+Step 5 — Start Gerrit server
+~/gerrit_site/bin/gerrit.sh start
+
+
+Check status:
+
+~/gerrit_site/bin/gerrit.sh status
+
+
+You should see:
+
+Gerrit running
+
+Step 6 — Open Gerrit Web UI
+
+Open browser and go to:
+
+http://localhost:8080
+
+
+If running on server:
+
+http://SERVER_IP:8080
+
+
+Login using the admin account created earlier.
+
+🎉 Gerrit is now running!
+
+Step 7 — Configure Git identity (for pushing code)
+
+On your machine:
+
+git config --global user.name "Your Name"
+git config --global user.email "your_email@gmail.com"
+
+Step 8 — Add SSH key to Gerrit
+
+Generate SSH key:
+
+ssh-keygen -t rsa -b 4096
+
+
+Show key:
+
+cat ~/.ssh/id_rsa.pub
+
+
+Copy the output.
+
+Now in Gerrit UI:
+
+Settings → SSH Keys → Add Key
+
+
+Paste the key.
+
+Step 9 — Test Gerrit SSH connection
+ssh -p 29418 admin@localhost
+
+
+If successful:
+
+Welcome to Gerrit Code Review
+
+Step 10 — Create your first project
+
+From terminal:
+
+ssh -p 29418 admin@localhost gerrit create-project my-first-project
+
+Gerrit is fully installed 🎉
+
+You now have:
+
+Web UI → http://localhost:8080
+
+Git SSH → port 29418
+
+Gerrit running as service
+
+Start/Stop Commands (Important)
+
+Start:
+
+~/gerrit_site/bin/gerrit.sh start
+
+
+Stop:
+
+~/gerrit_site/bin/gerrit.sh stop
+
+
+Restart:
+
+~/gerrit_site/bin/gerrit.sh restart
+
