@@ -1,3 +1,5 @@
 Gerrit Code Review :
 
 Github vs Gerrit
+
+1. First Understanding Git
