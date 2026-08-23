@@ -1,1 +1,3 @@
 RepoSync :
+
+Manual Vs Automation 
