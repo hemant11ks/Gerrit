@@ -1,4 +1,4 @@
-Installation Steps on Linux :
+Installation Steps on Linux Ubuntu :
 
 What is Gerrit (quick context)
 
