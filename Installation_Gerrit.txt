@@ -1,6 +1,6 @@
 Installation Steps on Linux Ubuntu :
 
-What is Gerrit (quick context)
+What is Gerrit ? (quick context)
 
 Gerrit = Git Server + Code Review system used by big projects like Android, Chromium, OpenStack.
 
