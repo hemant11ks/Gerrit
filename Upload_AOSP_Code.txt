@@ -1,4 +1,6 @@
-Upload_AOSP_Code
+Upload_AOSP_Code:
+
+1. First create manifest file.
 
 
 
